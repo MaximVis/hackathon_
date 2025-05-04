@@ -1,0 +1,45 @@
+<div class="container"><!-- основной контент -->
+    <h1>Создать аккаунт</h1>
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+        <label for="card_phone">Номер телефона</label><br>
+        <input type="text" id="card_phone" formControlName="card_phone">
+        <div *ngIf="accountForm.get('card_phone')?.invalid && 
+                    (accountForm.get('card_phone')?.dirty || accountForm.get('card_phone')?.touched)">
+          <small *ngIf="accountForm.get('card_phone')?.errors?.['required']">
+            Номер телефона обязателен
+          </small>
+          <small *ngIf="accountForm.get('card_phone')?.errors?.['pattern']">
+            Введите корректный номер телефона
+          </small>
+        </div>
+        <br>
+        
+        <label for="card_mail">Адрес электронной почты</label><br>
+        <input type="text" id="card_mail" formControlName="card_mail">
+        <div *ngIf="accountForm.get('card_mail')?.invalid && 
+                    (accountForm.get('card_mail')?.dirty || accountForm.get('card_mail')?.touched)">
+          <small *ngIf="accountForm.get('card_mail')?.errors?.['required']">
+            Email обязателен
+          </small>
+          <small *ngIf="accountForm.get('card_mail')?.errors?.['email']">
+            Введите корректный email
+          </small>
+        </div>
+        <br>
+      
+        <label for="profile_password">Пароль</label><br>
+        <input type="password" id="profile_password" formControlName="profile_password">
+        <div *ngIf="accountForm.get('profile_password')?.invalid && 
+                    (accountForm.get('profile_password')?.dirty || accountForm.get('profile_password')?.touched)">
+          <small *ngIf="accountForm.get('profile_password')?.errors?.['required']">
+            Пароль обязателен
+          </small>
+          <small *ngIf="accountForm.get('profile_password')?.errors?.['minlength']">
+            Пароль должен быть не менее 8 символов
+          </small>
+        </div>
+        <br>
+      
+        <button type="submit" [disabled]="accountForm.invalid">Создать аккаунт</button>
+      </form>
+</div>

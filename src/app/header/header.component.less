@@ -1,0 +1,144 @@
+@primary-color: #3B82F6;
+@background-color: #ffffff;
+@text-color: #333333;
+@hover-color: lighten(@primary-color, 10%);
+@link-spacing: 15px; 
+
+
+.container_header {
+    background-color: @background-color;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    
+    .header_links {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        
+        // Left part with logo
+        > a.left-icon {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: @text-color;
+            font-size: 20px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            margin-right: @link-spacing; // 15px отступ до первого пункта меню
+            
+            &:hover {
+                color: @primary-color;
+            }
+            
+            .icon_header {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+        }
+        
+        // Navigation links container
+        ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            
+            li {
+                // Отступ между ссылками 15px
+                &:not(:last-child) {
+                    margin-right: @link-spacing;
+                }
+                
+                a {
+                    text-decoration: none;
+                    color: @text-color;
+                    font-size: 16px;
+                    font-weight: 500;
+                    padding: 8px 12px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    
+                    &:hover {
+                        color: @primary-color;
+                        background-color: fade(@primary-color, 10%);
+                    }
+                    
+                    &.active {
+                        color: @primary-color;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+        
+        // Right icon
+        > a.right-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: @text-color;
+            margin-left: @link-spacing; // 15px отступ от последнего пункта меню
+            transition: all 0.3s ease;
+            
+            &:hover {
+                color: @primary-color;
+                background-color: fade(@primary-color, 10%);
+            }
+            
+            .icon_account {
+                font-size: 24px;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .container_header {
+        .header_links {
+            flex-wrap: wrap;
+            padding: 10px 15px;
+            
+            > a.left-icon {
+                font-size: 18px;
+                margin-right: @link-spacing;
+                
+                .icon_header {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+            
+            ul {
+                order: 3;
+                width: 100%;
+                justify-content: flex-start;
+                margin: 10px 0 0 -@link-spacing; // Компенсируем отступы первых элементов
+                
+                li {
+                    margin: 0;
+                    padding-left: @link-spacing;
+                    
+                    a {
+                        font-size: 14px;
+                        padding: 6px 8px;
+                    }
+                }
+            }
+            
+            > a.right-icon {
+                margin-left: auto;
+            }
+        }
+    }
+}

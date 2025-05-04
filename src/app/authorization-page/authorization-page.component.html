@@ -1,0 +1,47 @@
+<div class="container"><!-- основной контент -->
+    <h1>Авторизация в личном кабинете</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <label for="card_phone">Номер телефона</label>
+          <input 
+            type="text" 
+            id="card_phone" 
+            formControlName="card_phone"
+            class="form-control"
+            [ngClass]="{'is-invalid': loginForm.get('card_phone')?.invalid && loginForm.get('card_phone')?.touched}">
+          
+          <div *ngIf="loginForm.get('card_phone')?.invalid && loginForm.get('card_phone')?.touched" class="invalid-feedback">
+            <div *ngIf="loginForm.get('card_phone')?.errors?.['required']">
+              Номер телефона обязателен
+            </div>
+            <div *ngIf="loginForm.get('card_phone')?.errors?.['pattern']">
+              Введите корректный номер телефона
+            </div>
+          </div>
+        </div>
+      
+        <div class="form-group">
+          <label for="profile_password">Пароль</label>
+          <input 
+            type="password" 
+            id="profile_password" 
+            formControlName="profile_password"
+            class="form-control"
+            [ngClass]="{'is-invalid': loginForm.get('profile_password')?.invalid && loginForm.get('profile_password')?.touched}">
+          
+          <div *ngIf="loginForm.get('profile_password')?.invalid && loginForm.get('profile_password')?.touched" class="invalid-feedback">
+            <div *ngIf="loginForm.get('profile_password')?.errors?.['required']">
+              Пароль обязателен
+            </div>
+            <div *ngIf="loginForm.get('profile_password')?.errors?.['minlength']">
+              Пароль должен быть не менее 6 символов
+            </div>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Вход</button>
+      </form>
+    Нет аккаунта? <a routerLink = "/account_create"> Зарегистрировать</a> <br>
+    <br>
+    <a routerLink = "/cards"> Создать карту</a> 
+</div> 

@@ -1,0 +1,56 @@
+<div class="container"><!-- основной контент -->
+    <h1>Пользуйтесь картой уже сегодня</h1>
+    <form [formGroup]="cardForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="card_fio">Фамилия, имя и отчество</label>
+        <input type="text" id="card_fio" formControlName="card_fio" class="form-control">
+        <div *ngIf="cardForm.get('card_fio')?.invalid && (cardForm.get('card_fio')?.dirty || cardForm.get('card_fio')?.touched)"
+             class="error-message">
+          <span *ngIf="cardForm.get('card_fio')?.errors?.['required']">Это поле обязательно</span>
+          <span *ngIf="cardForm.get('card_fio')?.errors?.['pattern']">Только русские буквы и пробелы</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="card_phone">Номер телефона</label>
+        <input type="text" id="card_phone" formControlName="card_phone" class="form-control">
+        <div *ngIf="cardForm.get('card_phone')?.invalid && (cardForm.get('card_phone')?.dirty || cardForm.get('card_phone')?.touched)"
+             class="error-message">
+          <span *ngIf="cardForm.get('card_phone')?.errors?.['required']">Это поле обязательно</span>
+          <span *ngIf="cardForm.get('card_phone')?.errors?.['pattern']">Введите корректный номер телефона</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="card_mail">Адрес электронной почты</label>
+        <input type="email" id="card_mail" formControlName="card_mail" class="form-control">
+        <div *ngIf="cardForm.get('card_mail')?.invalid && (cardForm.get('card_mail')?.dirty || cardForm.get('card_mail')?.touched)"
+             class="error-message">
+          <span *ngIf="cardForm.get('card_mail')?.errors?.['required']">Это поле обязательно</span>
+          <span *ngIf="cardForm.get('card_mail')?.errors?.['email']">Введите корректный email</span>
+        </div>
+      </div>
+    
+      <div class="form-group">
+        <label for="card_passport">Серия и номер паспорта</label>
+        <input type="text" id="card_passport" formControlName="card_passport" class="form-control" 
+               placeholder="XXXX XXXXXX">
+        <div *ngIf="cardForm.get('card_passport')?.invalid && (cardForm.get('card_passport')?.dirty || cardForm.get('card_passport')?.touched)"
+             class="error-message">
+          <span *ngIf="cardForm.get('card_passport')?.errors?.['required']">Это поле обязательно</span>
+          <span *ngIf="cardForm.get('card_passport')?.errors?.['pattern']">Формат: 4 цифры серии и 6 цифр номера</span>
+        </div>
+      </div>
+    
+      <div class="form-group">
+        <label for="card_type">Тип банковской карты</label>
+        <select id="card_type" formControlName="card_type" class="form-control">
+          <option value="1">Карта</option>
+          <option value="2">Вклад</option>
+          <option value="3">Кредитная карта</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn btn-primary" [disabled]="cardForm.invalid">Выпустить карту</button>
+    </form>
+</div>

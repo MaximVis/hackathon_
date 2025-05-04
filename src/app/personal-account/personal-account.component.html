@@ -1,0 +1,105 @@
+<div class="container">
+    <body>
+    <div class="header">
+        <div class="user-info">{{ userName }}</div>
+        <div class="logout">
+            <button tuiIconButton (click)="onLogout()">
+                <tui-icon icon="@tui.log-out"></tui-icon>
+            </button>
+        </div>
+    </div>
+    
+    <div class="actions">
+        <button class="action-btn" routerLink="/transfer_statistucs">История операций</button>
+        <button class="action-btn" (click)="showTransferForm()">Перевод</button>
+        <button class="action-btn">Пополнение баланса</button>
+        <button class="action-btn" (click)="showWithdrawalForm()">Снятие денег</button>
+    </div>
+    
+    <div class="section-title">Карты</div>
+    <div class="total-balance">Общий счет по картам: {{ totalBalance }} рублей</div>
+
+    <div class="cards">
+        @for (card of cards; track card.title) {
+        <div class="card">
+            <div class="card-title">{{ card.title }}</div>
+            <div class="card-balance">Доступно {{ card.balance }} рублей</div>
+        </div>}
+    </div>
+
+    <!-- Модальное окно для перевода -->
+    @if (showTransferModal) {
+    <div class="modal-overlay" (click)="closeTransferForm()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <h3>Форма перевода</h3>
+            <form (ngSubmit)="submitTransferForm()">
+                <div class="form-group">
+                    <label for="card-select">Выберите карту:</label>
+                    <select id="card-select" [(ngModel)]="selectedCardIndex" name="card" class="form-select" required>
+                        <option *ngFor="let card of cards; let i = index" [value]="i">
+                            {{ card.title }} ({{ card.balance }} руб.)
+                        </option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount">Сумма перевода:</label>
+                    <input type="number" id="amount" [(ngModel)]="transferAmount" name="amount" 
+                           class="form-input" required (input)="validateAmount()">
+                    @if (amountExceedsBalance) {
+                    <div class="error-message">Сумма превышает доступный баланс</div>
+                    }
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" (click)="closeTransferForm()">Отмена</button>
+                    <button type="submit" class="submit-btn" [disabled]="!isFormValid || amountExceedsBalance">Отправить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+
+
+
+
+
+    @if (showWithdrawalModal) {
+        <div class="modal-overlay" (click)="closeWithdrawalForm()">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+                <h3>Форма снятия денег</h3>
+                <form (ngSubmit)="submitWithdrawalForm()">
+                    <div class="form-group">
+                        <label for="withdrawal-card-select">Выберите карту:</label>
+                        <select id="withdrawal-card-select" [(ngModel)]="selectedCardIndex" name="card" class="form-select" required>
+                            <option *ngFor="let card of cards; let i = index" [value]="i">
+                                {{ card.title }} ({{ card.balance }} руб.)
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Номер телефона:</label>
+                        <input type="tel" id="phone" [(ngModel)]="withdrawalPhone" name="phone" 
+                               class="form-input" required pattern="[0-9]{11}" placeholder="79991234567">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="withdrawal-amount">Сумма снятия:</label>
+                        <input type="number" id="withdrawal-amount" [(ngModel)]="withdrawalAmount" name="amount" 
+                               class="form-input" required (input)="validateWithdrawalAmount()">
+                        @if (withdrawalAmountExceedsBalance) {
+                        <div class="error-message">Сумма превышает доступный баланс</div>
+                        }
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" (click)="closeWithdrawalForm()">Отмена</button>
+                        <button type="submit" class="submit-btn" [disabled]="!isWithdrawalFormValid || withdrawalAmountExceedsBalance">Подтвердить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        }
+    </body>
+</div>
